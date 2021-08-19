@@ -3,6 +3,7 @@ var APP_DATA = {
     {
       "id": "0-outdoor_video",
       "name": "outdoor_video",
+      "is360video": true,
       "levels": [
         {
           "tileSize": 256,
@@ -28,7 +29,14 @@ var APP_DATA = {
         "pitch": -0.006377127543153449,
         "fov": 1.4816192991922632
       },
-      "linkHotspots": [],
+      "linkHotspots": [
+        {
+          "yaw": -0.3569153430178353,
+          "pitch": 0.050825926704376585,
+          "rotation": 0.7853981633974483,
+          "target": "1-outdoor"
+        }
+      ],
       "infoHotspots": []
     },
     {

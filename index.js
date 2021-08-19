@@ -183,12 +183,122 @@
   }
 
   function switchScene(scene) {
+
+    if (handle_special_scene(scene)) {
+      updateSceneName(scene);
+      updateSceneList(scene);
+      return;
+    } else {
+
+    }
+
     stopAutorotate();
     scene.view.setParameters(scene.data.initialViewParameters);
     scene.scene.switchTo();
     startAutorotate();
     updateSceneName(scene);
     updateSceneList(scene);
+  }
+
+  function handle_special_scene(scene_in) {
+
+    try { if (!!document.videoAsset) {
+      document.videoAsset.destroy();
+      document.videoAsset._videoElement.pause();
+    }; } catch {}
+
+    document.body.removeEventListener('click', tryStart);
+    document.body.removeEventListener('touchstart', tryStart);
+
+    if (!scene_in.data.is360video) {
+      return false;
+    }
+
+
+    document.videoAsset = new VideoAsset();
+    var source = new Marzipano.SingleAssetSource(document.videoAsset);
+    var geometry = new Marzipano.EquirectGeometry([ { width: 1 } ]);
+    var limiter = Marzipano.RectilinearView.limit.vfov(90*Math.PI/180, 90*Math.PI/180);
+    var view = new Marzipano.RectilinearView({ fov: Math.PI/2 }, limiter);
+
+
+
+    var scene = viewer.createScene({
+      source: source,
+      geometry: geometry,
+      view: view
+    });
+
+    // Create link hotspots.
+    scene_in.data.linkHotspots.forEach(function(hotspot) {
+      var element = createLinkHotspotElement(hotspot);
+      scene.hotspotContainer().createHotspot(element, { yaw: hotspot.yaw, pitch: hotspot.pitch });
+    });
+
+    // Create info hotspots.
+    scene_in.data.infoHotspots.forEach(function(hotspot) {
+      var element = createInfoHotspotElement(hotspot);
+      scene.hotspotContainer().createHotspot(element, { yaw: hotspot.yaw, pitch: hotspot.pitch });
+    });
+
+    // Display scene.
+    scene.switchTo();
+
+    var div = document.createElement('div');
+    div.style = "padding: 500px 500px 500px 1200px; font-size: 30px;";
+    div.innerHTML = "<h1>Click to play</h1>";
+
+    document.body.appendChild(div);
+
+    document.body.addEventListener('click', tryStart);
+    document.body.addEventListener('touchstart', tryStart);
+
+    // Whether playback has started.
+    var started = false;
+
+    // Try to start playback.
+    function tryStart() {
+      if (started) {
+        return;
+      }
+      started = true;
+
+      var video = document.createElement('video');
+      video.setAttribute("id", "video1");
+      video.src = '/video.mp4';
+      video.crossOrigin = 'anonymous';
+
+      video.autoplay = true;
+      video.loop = true;
+
+      // Prevent the video from going full screen on iOS.
+      video.playsInline = true;
+      video.webkitPlaysInline = true;
+
+      video.play();
+
+      waitForReadyState(video, video.HAVE_METADATA, 100, function() {
+        waitForReadyState(video, video.HAVE_ENOUGH_DATA, 100, function() {
+          document.videoAsset.setVideo(video);
+        });
+      });
+    }
+
+    // Wait for an element to reach the given readyState by polling.
+    // The HTML5 video element exposes a `readystatechange` event that could be
+    // listened for instead, but it seems to be unreliable on some browsers.
+    function waitForReadyState(element, readyState, interval, done) {
+      var timer = setInterval(function() {
+        if (element.readyState >= readyState) {
+          clearInterval(timer);
+          done(null, true);
+        }
+      }, interval);
+    }
+
+
+    return true;
+
   }
 
   function updateSceneName(scene) {
@@ -205,6 +315,8 @@
       }
     }
   }
+
+
 
   function showSceneList() {
     sceneListElement.classList.add('enabled');
