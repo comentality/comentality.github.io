@@ -207,8 +207,8 @@
   }
 
   function showSceneList() {
-    sceneListElement.classList.add('enabled');
-    sceneListToggleElement.classList.add('enabled');
+    sceneListElement.classList.add('disabled');
+    sceneListToggleElement.classList.add('disabled');
   }
 
   function hideSceneList() {
