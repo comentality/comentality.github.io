@@ -771,7 +771,14 @@ var APP_DATA = {
         "yaw": 0,
         "fov": 1.5707963267948966
       },
-      "linkHotspots": [],
+      "linkHotspots": [
+        {
+          "yaw": 2.2150273093426858,
+          "pitch": 0.704576440811616,
+          "rotation": 0,
+          "target": "54-a"
+        }
+      ],
       "infoHotspots": []
     },
     {
@@ -2250,6 +2257,12 @@ var APP_DATA = {
           "pitch": 0.4959258765271386,
           "rotation": 0,
           "target": "51-b_2"
+        },
+        {
+          "yaw": -2.7434287567826097,
+          "pitch": 0.7469884784780199,
+          "rotation": 0,
+          "target": "53-b"
         }
       ],
       "infoHotspots": []
@@ -2372,14 +2385,14 @@ var APP_DATA = {
       ],
       "faceSize": 1440,
       "initialViewParameters": {
-        "yaw": 0.10789308103238149,
-        "pitch": 0.0061437484518886976,
-        "fov": 1.4816192991922632
+        "yaw": 0.1872262288503137,
+        "pitch": -0.1859525844742027,
+        "fov": 1.3970642394625192
       },
       "linkHotspots": [
         {
-          "yaw": 0.5861220169175301,
-          "pitch": 0.043698086980795026,
+          "yaw": 0.6069153430178353,
+          "pitch": 0.057825926704376585,
           "rotation": 0.7853981633974483,
           "target": "56-indoor"
         }
@@ -2440,7 +2453,7 @@ var APP_DATA = {
   "name": "KAMA",
   "settings": {
     "mouseViewMode": "drag",
-    "autorotateEnabled": false,
+    "autorotateEnabled": true,
     "fullscreenButton": false,
     "viewControlButtons": true
   }
