@@ -2440,8 +2440,8 @@ var APP_DATA = {
   "name": "KAMA",
   "settings": {
     "mouseViewMode": "drag",
-    "autorotateEnabled": false,
-    "fullscreenButton": false,
+    "autorotateEnabled": true,
+    "fullscreenButton": true,
     "viewControlButtons": true
   }
 };
